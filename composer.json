@@ -1,0 +1,18 @@
+{
+  "authors": [
+    {
+      "name": "Ghadeer abd alhameed",
+      "email": "gh.abd.alhameed.97@gmail.com"
+    }
+  ],
+  "repositories": [
+    {
+      "type": "path",
+      "url": "../wp-foundation"
+    }
+  ],
+  "require": {
+    "php": ">=7.4",
+    "boca/wp-foundation": "dev-main"
+  }
+}

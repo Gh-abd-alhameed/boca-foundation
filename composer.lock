@@ -1,0 +1,57 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "ee22a904386a0d38291eacacce03d18f",
+    "packages": [
+        {
+            "name": "boca/wp-foundation",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "../wp-foundation",
+                "reference": "8906d71ac8903850568ace1d3b8bb22e8eb9486a"
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "boca\\": "boca"
+                },
+                "files": [
+                    "boca/helper.php"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ghadeer Abd Alhameed",
+                    "email": "gh.abd.alhamedd.97@gmail.com"
+                }
+            ],
+            "description": "description",
+            "transport-options": {
+                "relative": true
+            }
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "boca/wp-foundation": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": ">=7.4"
+    },
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}

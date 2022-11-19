@@ -1,0 +1,43 @@
+{
+    "packages": [
+        {
+            "name": "boca/wp-foundation",
+            "version": "dev-main",
+            "version_normalized": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "../wp-foundation",
+                "reference": "8906d71ac8903850568ace1d3b8bb22e8eb9486a"
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "boca\\": "boca"
+                },
+                "files": [
+                    "boca/helper.php"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ghadeer Abd Alhameed",
+                    "email": "gh.abd.alhamedd.97@gmail.com"
+                }
+            ],
+            "description": "description",
+            "transport-options": {
+                "relative": true
+            },
+            "install-path": "../boca/wp-foundation"
+        }
+    ],
+    "dev": true,
+    "dev-package-names": []
+}
