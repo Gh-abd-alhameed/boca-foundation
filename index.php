@@ -5,9 +5,10 @@ defined("ABSPATH") or die('');
 require __DIR__ . "/vendor/autoload.php";
 
 use boca\core\settings\Init;
-
+use boca\core\settings\Route;
 Init::setapp([
 	'url' => "/",
+	"rest_api_prefix"=>"/boca",
 	"dir_theme" => get_template_directory(),
 	'locale' => 'en',
 	'available_locales' => [
@@ -34,6 +35,23 @@ Init::setapp([
 	],
 ]);
 Init::init();
-
-
-
+Route::Init("api", function () {
+	Route::post("/test-api", function () {
+		return response()->json([
+			"status" => 200,
+			"data" => [
+				"id" => 157,
+				"name" => "test-api"
+			]
+		]);
+	});
+	Route::post("/test-api-2", function () {
+		return response()->json([
+			"status" => 200,
+			"data" => [
+				"id" => 111,
+				"name" => "test-api-2"
+			]
+		]);
+	});
+});

@@ -23,6 +23,7 @@ class BocaFoundation
 	public function __construct()
 	{
 		require __DIR__ . "/index.php";
+
 	}
 
 	function activate()

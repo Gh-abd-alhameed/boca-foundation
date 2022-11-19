@@ -7,7 +7,7 @@
             "dist": {
                 "type": "path",
                 "url": "../wp-foundation",
-                "reference": "8906d71ac8903850568ace1d3b8bb22e8eb9486a"
+                "reference": "15ab3f8c15b14c7840d70761bfbd9cd246107286"
             },
             "require": {
                 "php": ">=7.4"
