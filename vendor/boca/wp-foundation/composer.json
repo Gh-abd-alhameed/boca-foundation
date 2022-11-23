@@ -1,0 +1,24 @@
+{
+  "name": "boca/wp-foundation",
+  "description": "description",
+  "minimum-stability": "dev",
+  "license": "MIT",
+  "type": "library",
+  "authors": [
+    {
+      "name": "Ghadeer Abd Alhameed",
+      "email": "gh.abd.alhamedd.97@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "boca\\": "boca"
+    },
+    "files": [
+      "boca/helper.php"
+    ]
+  }
+}

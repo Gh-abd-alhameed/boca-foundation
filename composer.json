@@ -1,18 +1,20 @@
 {
+  "name": "boca/wordpress-plugin",
+  "description": "description",
   "authors": [
     {
       "name": "Ghadeer abd alhameed",
       "email": "gh.abd.alhameed.97@gmail.com"
     }
   ],
-  "repositories": [
-    {
-      "type": "path",
-      "url": "../wp-foundation"
-    }
-  ],
   "require": {
     "php": ">=7.4",
-    "boca/wp-foundation": "dev-main"
+    "boca/wp-foundation": "^1.0",
+    "phpfastcache/phpfastcache": "^8.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "app\\": "app"
+    }
   }
 }

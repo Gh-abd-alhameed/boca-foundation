@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit1c1539e75ad834b386a947aa144eff14
+class ComposerStaticInit6dab8ec5f896c66f946e00b23dd860d8
 {
     public static $files = array (
         'd929afc601b0b9bc8330e5d333f483dc' => __DIR__ . '/..' . '/boca/wp-foundation/boca/helper.php',
@@ -15,12 +15,43 @@ class ComposerStaticInit1c1539e75ad834b386a947aa144eff14
         array (
             'boca\\' => 5,
         ),
+        'a' => 
+        array (
+            'app\\' => 4,
+        ),
+        'P' => 
+        array (
+            'Psr\\SimpleCache\\' => 16,
+            'Psr\\Cache\\' => 10,
+            'Phpfastcache\\Tests\\' => 19,
+            'Phpfastcache\\' => 13,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
         'boca\\' => 
         array (
             0 => __DIR__ . '/..' . '/boca/wp-foundation/boca',
+        ),
+        'app\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/app',
+        ),
+        'Psr\\SimpleCache\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/simple-cache/src',
+        ),
+        'Psr\\Cache\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/cache/src',
+        ),
+        'Phpfastcache\\Tests\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpfastcache/phpfastcache/tests/lib',
+        ),
+        'Phpfastcache\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpfastcache/phpfastcache/lib/Phpfastcache',
         ),
     );
 
@@ -31,9 +62,9 @@ class ComposerStaticInit1c1539e75ad834b386a947aa144eff14
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit1c1539e75ad834b386a947aa144eff14::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit1c1539e75ad834b386a947aa144eff14::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit1c1539e75ad834b386a947aa144eff14::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit6dab8ec5f896c66f946e00b23dd860d8::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit6dab8ec5f896c66f946e00b23dd860d8::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit6dab8ec5f896c66f946e00b23dd860d8::$classMap;
 
         }, null, ClassLoader::class);
     }

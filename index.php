@@ -35,4 +35,4 @@ Init::setapp([
 	],
 ]);
 Init::init();
-
+require __DIR__ . "/bootstrap.php";
