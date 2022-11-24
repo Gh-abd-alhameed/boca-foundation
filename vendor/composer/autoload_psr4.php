@@ -7,6 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'boca\\' => array($vendorDir . '/boca/wp-foundation/boca'),
+    'app\\core\\' => array($baseDir . '/app/core'),
     'app\\' => array($baseDir . '/app'),
     'Psr\\SimpleCache\\' => array($vendorDir . '/psr/simple-cache/src'),
     'Psr\\Cache\\' => array($vendorDir . '/psr/cache/src'),

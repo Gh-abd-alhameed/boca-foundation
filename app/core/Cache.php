@@ -1,30 +1,18 @@
 <?php
+
 namespace app\core;
 
 class Cache
 {
-	public static $cache;
-
-	public function get($name)
-	{
-		global $Cache;
-		return $Cache->getItem($name);
-	}
-
-	public static function set(string $key, array|string $value, int $exp)
-	{
-		global $Cache;
-		return  array($key, $value, $exp);
-	}
-
-	public function delete(array $keys)
-	{
-		global $Cache;
-		return $Cache->deleteMultiple($keys);
-	}
-
-	public function exp($seconds)
-	{
-		return $seconds;
-	}
+    public static $cache;
+    public static function get(string $key)
+    {
+        global $Cache;
+        self::$cache = $Cache->getItem($key);
+        return self::$cache;
+    }
+    public static function isHit()
+    {
+        return self::$cache->isHit();
+    }
 }

@@ -2,7 +2,7 @@
 
 defined("ABSPATH") or die('');
 require __DIR__ . "/vendor/autoload.php";
-
+require __DIR__ . "/bootstrap.php";
 use boca\core\settings\Init;
 
 Init::setapp([
@@ -35,4 +35,4 @@ Init::setapp([
 	],
 ]);
 Init::init();
-require __DIR__ . "/bootstrap.php";
+require __DIR__ . "/app/function.php";

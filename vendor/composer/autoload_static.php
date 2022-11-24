@@ -17,6 +17,7 @@ class ComposerStaticInit6dab8ec5f896c66f946e00b23dd860d8
         ),
         'a' => 
         array (
+            'app\\core\\' => 9,
             'app\\' => 4,
         ),
         'P' => 
@@ -32,6 +33,10 @@ class ComposerStaticInit6dab8ec5f896c66f946e00b23dd860d8
         'boca\\' => 
         array (
             0 => __DIR__ . '/..' . '/boca/wp-foundation/boca',
+        ),
+        'app\\core\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/app/core',
         ),
         'app\\' => 
         array (
