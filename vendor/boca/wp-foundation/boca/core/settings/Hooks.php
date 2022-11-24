@@ -1,6 +1,5 @@
 <?php
 
-
 namespace boca\core\settings;
 
 class Hooks
@@ -14,7 +13,9 @@ class Hooks
 		self::$hook = $hook;
 		$callback();
 		self::runAction();
-		self::runFilter();
+        if(self::$filters):
+		    self::runFilter();
+        endif;
 	}
 
 	public static function filter(\Closure $callback)
