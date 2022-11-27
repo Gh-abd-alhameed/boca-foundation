@@ -11,12 +11,21 @@ class Request extends RequestHandler
 		return self::$uri;
 	}
 
+    public static function hasInput($input) : bool
+    {
+        if(isset($_POST[$input]) || isset($_GET[$input]))
+        {
+            return true;
+        }
+        return false;
+    }
+
 	public static function previous()
 	{
 		return self::$previous;
 	}
 
-	public static function only(array $array)
+	public static function only(array $array) : array
 	{
 		return array_intersect_key(array_merge(self::body(),self::json(),self::query()), array_flip($array));
 	}
@@ -41,8 +50,12 @@ class Request extends RequestHandler
 		return self::$param;
 	}
 
+
 	public static function input($name)
 	{
+        if(!key_exists($name , self::$body)){
+            return self::$query[$name];
+        }
 		return self::$body[$name];
 	}
 

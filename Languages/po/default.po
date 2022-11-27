@@ -1,0 +1,9 @@
+
+#: translate one
+msgid "Hello world"
+msgstr ""
+
+
+
+
+
