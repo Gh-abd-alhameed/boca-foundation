@@ -80,7 +80,7 @@ class session
 	}
 
 	public
-	function Flash(string $session_key)
+	static function Flash(string $session_key)
 	{
 		if (!is_string($session_key)) {
 			if (Init::$app["debug"]) {

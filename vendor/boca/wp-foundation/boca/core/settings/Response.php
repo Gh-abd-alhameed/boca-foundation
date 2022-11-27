@@ -6,13 +6,12 @@ class Response
 {
     public function json($value)
     {
-        echo json_encode($value);
-        return $this;
+    	return json_encode($value);
     }
 
     public function status(int $code = 200, string $message = "")
     {
-        header("HTTP/2.0 $code $message");
+        header("HTTP/1.1 $code $message");
         return $this;
     }
 

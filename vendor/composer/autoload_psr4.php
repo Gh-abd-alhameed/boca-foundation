@@ -13,4 +13,6 @@ return array(
     'Psr\\Cache\\' => array($vendorDir . '/psr/cache/src'),
     'Phpfastcache\\Tests\\' => array($vendorDir . '/phpfastcache/phpfastcache/tests/lib'),
     'Phpfastcache\\' => array($vendorDir . '/phpfastcache/phpfastcache/lib/Phpfastcache'),
+    'Gettext\\Languages\\' => array($vendorDir . '/gettext/languages/src'),
+    'Gettext\\' => array($vendorDir . '/gettext/gettext/src'),
 );

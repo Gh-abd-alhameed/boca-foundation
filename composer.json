@@ -9,8 +9,9 @@
   ],
   "require": {
     "php": ">=7.4",
-    "boca/wp-foundation": "^1.0",
-    "phpfastcache/phpfastcache": "^8.1"
+    "phpfastcache/phpfastcache": "^8.1",
+    "gettext/gettext": "^5.7",
+    "boca/wp-foundation": "dev-main"
   },
   "autoload": {
     "psr-4": {

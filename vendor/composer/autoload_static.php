@@ -27,6 +27,11 @@ class ComposerStaticInit6dab8ec5f896c66f946e00b23dd860d8
             'Phpfastcache\\Tests\\' => 19,
             'Phpfastcache\\' => 13,
         ),
+        'G' => 
+        array (
+            'Gettext\\Languages\\' => 18,
+            'Gettext\\' => 8,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -57,6 +62,14 @@ class ComposerStaticInit6dab8ec5f896c66f946e00b23dd860d8
         'Phpfastcache\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpfastcache/phpfastcache/lib/Phpfastcache',
+        ),
+        'Gettext\\Languages\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/gettext/languages/src',
+        ),
+        'Gettext\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/gettext/gettext/src',
         ),
     );
 

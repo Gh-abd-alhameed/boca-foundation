@@ -45,15 +45,18 @@ if (!function_exists("echo_token_app_input")) {
 	function echo_token_app_input()
 	{
 		if (session::has("_token_app")) {
-			echo '<input type="text" name="_token_app" value="' . session::get("_token_app") . '" />';
+			$token = session::get("_token_app");
+			$outpit = <<<HTML
+				<input type="text" name="_token_app" hidden="true" value="$token" />
+			HTML;
+			return $outpit;
 		}
-
 	}
 }
 if (!function_exists("dir_site")) {
 	function dir_site($path = ''): string
 	{
-		return  Init::$app["dir_theme"] . $path;
+		return Init::$app["dir_theme"] . $path;
 	}
 }
 

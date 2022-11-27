@@ -2,8 +2,11 @@
 
 namespace boca\core\settings;
 
+use boca\core\settings\Hooks;
+
 class Route
 {
+
 	public static $namespace;
 	public static $route;
 	public static $READABLE = \WP_REST_Server::READABLE; // GET
@@ -20,50 +23,47 @@ class Route
 
 	public static function post(string $route, $callback)
 	{
-		if (is_string($callback)) {
-			return self::StringHandle($callback);
-		}
-		self::RouteHandle($route, self::$EDITABLE, $callback);
+		 self::RouteHandle($route, "POST", $callback);
 	}
 
 	public static function any(string $route, $callback)
 	{
-		if (is_string($callback)) {
-			return self::StringHandle($callback);
-		}
-		self::RouteHandle($route, self::$ALLMETHODS, $callback);
+		 self::RouteHandle($route, self::$ALLMETHODS, $callback);
 	}
 
 	public static function delete(string $route, $callback)
 	{
-		if (is_string($callback)) {
-			return self::StringHandle($callback);
-		}
-		self::RouteHandle($route, self::$DELETABLE, $callback);
+		 self::RouteHandle($route, "DELETE", $callback);
 	}
 
 	public static function get($route, $callback)
 	{
-		if (is_string($callback)) {
-			return self::StringHandle($callback);
-		}
-		self::RouteHandle($route, self::$READABLE, $callback);
+		 self::RouteHandle($route, "GET", $callback);
 	}
 
 	public static function RouteHandle($routename, $methods, $callback)
 	{
-		self::$route[] = ["route" => $routename, "method" => $methods, "callback" => $callback];
+
+		if (is_array($callback)) {
+			${$callback[1]} = new $callback[0];
+			$function = $callback[1];
+			self::$route[] = ["namespace" => self::$namespace, "route" => $routename, "method" => $methods, "callback" => ${$callback[1]}->{$function}];
+		} else {
+			self::$route[] = ["namespace" => self::$namespace, "route" => $routename, "method" => $methods, "callback" => $callback];
+		}
 	}
 
 	public static function run()
 	{
-		add_action('rest_api_init', function () {
-			foreach (self::$route as $key => $value) {
-				register_rest_route(self::$namespace, $value["route"], array(
-					'methods' => $value["method"],
-					'callback' => $value["callback"],
-				));
-			}
+		Hooks::Init("rest_api_init", function () {
+			Hooks::action(function () {
+				foreach (self::$route as $key => $value) {
+					register_rest_route($value["namespace"], $value["route"], array(
+						'methods' => $value["method"],
+						'callback' => $value["callback"]
+					));
+				}
+			});
 		});
 	}
 }

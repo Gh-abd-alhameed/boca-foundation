@@ -1,0 +1,23 @@
+.boca-tabs {
+border-bottom: 1px solid black;
+
+}
+.tab-btn {
+    text-decoration: none;
+    background-color: white;
+    padding: 5px 9px;
+    color: black !important;
+    border-radius: 5px;
+    font-size: 14px;
+    border:1px solid black;
+    transition: background-color 0.5s , color 0.5s;
+    cursor: pointer;
+}
+.tab-btn:hover{
+    background-color: black;
+    color: white !important;
+}
+.tab-btn.active{
+    background-color: black;
+    color: white !important;
+}
