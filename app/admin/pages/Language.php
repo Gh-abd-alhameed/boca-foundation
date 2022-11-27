@@ -2,10 +2,6 @@
 
 use boca\core\settings\Request;
 
-//if ($_SERVER["REQUEST_METHOD"] == "POST") {
-//
-//
-//}
 $languages = app("available_locales");
 $available_locales = app("available_locales");
 unset($available_locales["en"]);
