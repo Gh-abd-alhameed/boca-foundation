@@ -191,7 +191,11 @@ Route::Init("/boca/v1", function () {
             return redierct()->back();
         }
         unset($array_posts[$post_name]);
-        return $array_posts;
+        $new_post_types = update_option("boca-posts-types" , serialize($array_posts));
+        if(!$new_post_types){
+            session::set(["error" => "An unexpected error occurred while deleting. Check the connection"]);
+            return redierct()->back();
+        }
         session::set(["success" => "Deleted successfully"]);
         return redierct()->back();
     });
@@ -290,8 +294,8 @@ Route::Init("/boca/v1", function () {
 		$items_list = wp_strip_all_tags(Request::input("items_list"));
 		$rewrite = wp_strip_all_tags(Request::input('rewrite'));
 		$posts = get_option("boca-posts-types");
-		$post_type_rejester = $posts ? $posts : [];
-		if(key_exists($name_post_type , $post_type_rejester) || key_exists( $name_post_type, (array)get_post_types()) )
+		$post_type_rejester = $posts ? unserialize($posts)  : [];
+		if(key_exists($name_post_type , $post_type_rejester) || key_exists( $name_post_type,  get_post_types()) )
 		{
 			session::set(["error" => "Post name used"]);
 			return redierct()->back();

@@ -23,8 +23,7 @@ use boca\core\settings\Request;
     }
 </style>
 
-<input type="text" name="_token_app" hidden
-       value="<?php echo \boca\core\settings\session::get("_token_app") ?>"/>
+
 <div class="container-fluid py-5">
     <?php if (\boca\core\settings\session::has("success")): ?>
         <small class="alert alert-success w-100"><?php echo \boca\core\settings\session::get("success");
@@ -67,7 +66,9 @@ use boca\core\settings\Request;
                                 <td><?php echo $value["rewrite"]["slug"] ?></td>
                                 <td class="d-flex gap-2">
                                     <form class="" action="/wp-json/boca/v1/delete-post-type" method="POST">
-                                        <input type="text" hidden value="<?php echo $key ?>"/>
+                                        <input type="text" name="_token_app" hidden
+                                               value="<?php echo \boca\core\settings\session::get("_token_app") ?>"/>
+                                        <input type="text" hidden name="post-type" value="<?php echo $key ?>"/>
                                         <input type="submit" value="X" class="btn btn-danger"/>
                                     </form>
                                     <a href="/wp-admin/admin.php?page=boca_submenu_register_post_type&editposttype=true"
@@ -106,6 +107,8 @@ use boca\core\settings\Request;
     <?php endif; ?>
     <?php if (Request::hasInput("addnew")): ?>
         <form action="/wp-json/boca/v1/add-post-type" method="POST">
+            <input type="text" name="_token_app" hidden
+                   value="<?php echo \boca\core\settings\session::get("_token_app") ?>"/>
             <div class="row ">
                 <div class="d-flex flex-column pb-4">
                     <label>Settings</label>
