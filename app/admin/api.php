@@ -170,6 +170,31 @@ Route::Init("/boca/v1", function () {
 		return redierct()->back();
 	});
 	// Add Post Type
+    Route::post("/delete-post-type" , function (){
+        if (empty(Request::input("_token_app")) || (session::get("_token_app") != Request::input("_token_app"))) {
+            session::set(["error" => "error 401 Auth"]);
+            return redierct()->back();
+        }
+        if(!Request::hasInput("post-type") || empty(Request::input("post-type"))){
+            session::set(["error" => "error input"]);
+            return redierct()->back();
+        }
+        $post_name = wp_strip_all_tags(Request::input("post-type"));
+        $array = get_option("boca-posts-types");
+        $array_posts = $array ? unserialize($array) : [];
+        if(count($array_posts) <= 0){
+            session::set(["error" => "There are no data"]);
+            return redierct()->back();
+        }
+        if(!key_exists($post_name , $array_posts)){
+            session::set(["error" => "post type does not exist"]);
+            return redierct()->back();
+        }
+        unset($array_posts[$post_name]);
+        return $array_posts;
+        session::set(["success" => "Deleted successfully"]);
+        return redierct()->back();
+    });
 	Route::post("/add-post-type", function () {
 		if (empty(Request::input("_token_app")) || (session::get("_token_app") != Request::input("_token_app"))) {
 			session::set(["error" => "error 401 Auth"]);
@@ -238,7 +263,7 @@ Route::Init("/boca/v1", function () {
 			session::set(["error" => "error rewrite rule"]);
 			return redierct()->back();
 		}
-		$name_post_type = wp_strip_all_tags(Request::input("name_post_type"));
+		$name_post_type =strtolower(wp_strip_all_tags(Request::input("name_post_type")));
 		$name = wp_strip_all_tags(Request::input("name"));
 		$singular_name = wp_strip_all_tags(Request::input("singular_name"));
 		$menu_name = wp_strip_all_tags(Request::input("menu_name"));
@@ -271,7 +296,6 @@ Route::Init("/boca/v1", function () {
 			session::set(["error" => "Post name used"]);
 			return redierct()->back();
 		}
-
 		$post_type_rejester[$name_post_type] = [
 				'labels' => array(
 					'name' => __($name , "boca-domain"),
@@ -314,6 +338,12 @@ Route::Init("/boca/v1", function () {
 				'exclude_from_search' => false,
 				'menu_icon' => 'dashicons-edit-page',
 		];
-		return $post_type_rejester;
+        $add_post_type = update_option("boca-posts-types" , serialize((array)$post_type_rejester));
+        if(!$add_post_type){
+            session::set(["error" => "An unexpected error occurred at the entry Check the connection"]);
+            return redierct()->back();
+        }
+        session::set(["success" => "Added successfully"]);
+		return redierct()->back();
 	});
 });

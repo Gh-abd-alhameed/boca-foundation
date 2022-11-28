@@ -8,6 +8,7 @@ class ComposerStaticInit6dab8ec5f896c66f946e00b23dd860d8
 {
     public static $files = array (
         'd929afc601b0b9bc8330e5d333f483dc' => __DIR__ . '/..' . '/boca/wp-foundation/boca/helper.php',
+        '1bc0417f7523fb7f467a047ae13444b3' => __DIR__ . '/../..' . '/app/helper.php',
     );
 
     public static $prefixLengthsPsr4 = array (

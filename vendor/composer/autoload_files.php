@@ -7,4 +7,5 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'd929afc601b0b9bc8330e5d333f483dc' => $vendorDir . '/boca/wp-foundation/boca/helper.php',
+    '1bc0417f7523fb7f467a047ae13444b3' => $baseDir . '/app/helper.php',
 );
