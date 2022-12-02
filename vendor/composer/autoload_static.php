@@ -27,9 +27,11 @@ class ComposerStaticInit6dab8ec5f896c66f946e00b23dd860d8
             'Psr\\Cache\\' => 10,
             'Phpfastcache\\Tests\\' => 19,
             'Phpfastcache\\' => 13,
+            'PhpParser\\' => 10,
         ),
         'G' => 
         array (
+            'Gettext\\Scanner\\' => 16,
             'Gettext\\Languages\\' => 18,
             'Gettext\\' => 8,
         ),
@@ -63,6 +65,14 @@ class ComposerStaticInit6dab8ec5f896c66f946e00b23dd860d8
         'Phpfastcache\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpfastcache/phpfastcache/lib/Phpfastcache',
+        ),
+        'PhpParser\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser',
+        ),
+        'Gettext\\Scanner\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/gettext/php-scanner/src',
         ),
         'Gettext\\Languages\\' => 
         array (
