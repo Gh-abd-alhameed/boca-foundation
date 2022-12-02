@@ -2,7 +2,7 @@
 
 /*
 * Plugin Name: Boca Foundation
-* Description: Rapidly improve the development process
+* Description: All in one translate,redirect,create post type and more
 * Requires at least: 5.9
 * Requires PHP: 7.4
 * Version: 1.0.0
