@@ -25,9 +25,9 @@ if (count($fields) > 0):
                         $image = $value_option ? wp_get_attachment_image_url($value_option) : app("url_plugin") . "public/assets/img/boca-img.png";
                         $output = <<<HTML
                             <div class="div-img-gallery">
-                                <img loading="lazy" class="img-video-poster boca-show-image" src="$image" width="100%">
+                                <img loading="lazy" class="boca-show-image" src="$image" width="100%">
                             </div>
-                            <div class="div-button-img-poster">
+                            <div class="div-button-img-poster d-flex pt-3 gap-3">
                                 <a  class="btn-outline-dark tab-btn boca-btn-add-image">add</a>
                                 <a  class="btn-outline-danger tab-btn-delete boca-btn-delete-image">delete</a>
                             </div>
@@ -36,7 +36,7 @@ if (count($fields) > 0):
                         HTML;
                     endif;
                     echo $output;
-                }, $value["post_type"], $value["post_type"] == "image" ? 'side' : "advanced", 'default');
+                }, $value["post_type"], $value["type"] == "image" ? 'side' : "advanced", 'default');
             endforeach;
         });
     });

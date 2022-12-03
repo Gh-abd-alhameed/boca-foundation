@@ -17,4 +17,10 @@ if(boca_btn_add_image != null){
             })
         })
     })
+    boca_btn_delete_image.forEach(el=>{
+        el.addEventListener("click" , (e)=>{
+            e.target.parentElement.previousElementSibling.firstElementChild.setAttribute("src" , "");
+            e.target.parentElement.nextElementSibling.setAttribute("value" , "");
+        })
+    })
 }
