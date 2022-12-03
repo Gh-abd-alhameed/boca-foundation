@@ -1,6 +1,20 @@
 .boca-tabs {
-border-bottom: 1px solid black;
-
+    border-bottom: 1px solid black;
+}
+.tab-btn-delete{
+    text-decoration: none;
+    background-color: transparent;
+    padding: 5px 9px;
+    color: red !important;
+    border-radius: 5px;
+    font-size: 14px;
+    border: 1px solid red;
+    transition: background-color 0.5s, color 0.5s;
+    cursor: pointer;
+}
+.tab-btn-delete:hover {
+    background-color: red;
+    color: white !important;
 }
 .tab-btn {
     text-decoration: none;
@@ -9,15 +23,17 @@ border-bottom: 1px solid black;
     color: black !important;
     border-radius: 5px;
     font-size: 14px;
-    border:1px solid black;
-    transition: background-color 0.5s , color 0.5s;
+    border: 1px solid black;
+    transition: background-color 0.5s, color 0.5s;
     cursor: pointer;
 }
-.tab-btn:hover{
+
+.tab-btn:hover {
     background-color: black;
     color: white !important;
 }
-.tab-btn.active{
+
+.tab-btn.active {
     background-color: black;
     color: white !important;
 }
