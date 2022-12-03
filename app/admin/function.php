@@ -39,6 +39,14 @@ Hooks::Init("admin_menu", function () {
 			"boca_submenu_Language",
 			"boca_submenu_Language"
 		);
+         add_submenu_page(
+             "boca_settings",
+             "Custom Fields",
+             "Custom Fields",
+             "manage_options",
+             "boca_submenu_custom_fields",
+             "boca_submenu_custom_fields"
+         );
         Hooks::Init("admin_init", function () {
             Hooks::action(function () {
                 add_settings_section('boca-general-options', '', 'boca_section_general_theme_settings', 'boca_settings');
@@ -86,4 +94,8 @@ function boca_submenu_register_post_type_callback()
 function boca_submenu_Language()
 {
 	return require __DIR__ ."/pages/Language.php";
+}
+function boca_submenu_custom_fields()
+{
+	return require __DIR__ ."/pages/metaboxes.php";
 }
