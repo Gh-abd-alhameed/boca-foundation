@@ -749,6 +749,113 @@ Route::Init( "/boca/v1", function () {
 		unset( $custom_fields[ $id ] );
 		$update_fields = update_option( "boca-metaboxes-fields", serialize( $custom_fields ) );
 		session::set( [ "success" => "success" ] );
+
 		return redierct()->back();
 	} );
+	Route::post( "/delete-taxonomy", function () {
+		if ( empty( Request::input( "_token_app" ) ) || ( session::get( "_token_app" ) != Request::input( "_token_app" ) ) ) {
+			session::set( [ "error" => "error 401 Auth" ] );
+
+			return redierct()->back();
+		}
+		if ( ! Request::hasInput( "name_taxonomy" ) || empty( Request::input( "name_taxonomy" ) ) ) {
+			session::set( [ "error" => "input error1" ] );
+
+			return redierct()->back();
+		}
+		$taxonomy          = wp_strip_all_tags( Request::input( "name_taxonomy" ) );
+		$array_accept_post = get_option( "boca-tax-accept-post" );
+		$accept_post       = $array_accept_post ? unserialize( $array_accept_post ) : [];
+		$array             = get_option( "boca-custom-taxonomy" );
+		$taxonomy_register = $array ? unserialize( $array ) : [];
+		if ( ! key_exists( $taxonomy, $taxonomy_register ) ) {
+			session::set( [ "error" => "Taxonomy not exists" ] );
+
+			return redierct()->back();
+		}
+		unset( $taxonomy_register[ $taxonomy ] );
+		unset( $accept_post[ $taxonomy ] );
+		$update_accept_post       = update_option( "boca-tax-accept-post", serialize( $accept_post ) );
+		$update_taxonomy_register = update_option( "boca-custom-taxonomy", serialize( $taxonomy_register ) );
+		session::set( [ "success" => "success" ] );
+
+		return redierct()->back();
+	} );
+	Route::post( "/create-taxonomy", function () {
+		if ( empty( Request::input( "_token_app" ) ) || ( session::get( "_token_app" ) != Request::input( "_token_app" ) ) ) {
+			session::set( [ "error" => "error 401 Auth" ] );
+
+			return redierct()->back();
+		}
+		if ( ! Request::hasInput( "accept_post" ) || ! Request::hasInput( "rewrite" ) || ! Request::hasInput( "name_taxonomy" ) || ! Request::hasInput( "name" ) || ! Request::hasInput( "singular_name" ) || ! Request::hasInput( "search_items" )
+		     || ! Request::hasInput( "all_items" ) || ! Request::hasInput( "parent_item" ) || ! Request::hasInput( "parent_item_colon" )
+		     || ! Request::hasInput( "edit_item" ) || ! Request::hasInput( "update_item" ) || ! Request::hasInput( "add_new_item" )
+		     || ! Request::hasInput( "new_item_name" ) || ! Request::hasInput( "menu_name" ) ) {
+			session::set( [ "error" => "input error1" ] );
+
+			return redierct()->back();
+		}
+		if ( empty( Request::input( "name_taxonomy" ) ) || empty( Request::input( "rewrite" ) ) || empty( Request::input( "name" ) ) || empty( Request::input( "singular_name" ) ) || empty( Request::input( "search_items" ) )
+		     || empty( Request::input( "all_items" ) ) || empty( Request::input( "parent_item" ) ) || empty( Request::input( "parent_item_colon" ) )
+		     || empty( Request::input( "edit_item" ) ) || empty( Request::input( "update_item" ) ) || empty( Request::input( "add_new_item" ) )
+		     || empty( Request::input( "new_item_name" ) ) || ! Request::input( "accept_post" ) || empty( Request::input( "menu_name" ) ) ) {
+			session::set( [ "error" => "input error" ] );
+
+			return redierct()->back();
+		}
+		$accept_post_input = Request::input( "accept_post" );
+		$rewrite           = wp_strip_all_tags( Request::input( "rewrite" ) );
+		$name_taxonomy     = wp_strip_all_tags( Request::input( "name_taxonomy" ) );
+		$name              = wp_strip_all_tags( Request::input( "name" ) );
+		$singular_name     = wp_strip_all_tags( Request::input( "singular_name" ) );
+		$search_items      = wp_strip_all_tags( Request::input( "search_items" ) );
+		$all_items         = wp_strip_all_tags( Request::input( "all_items" ) );
+		$parent_item       = wp_strip_all_tags( Request::input( "parent_item" ) );
+		$parent_item_colon = wp_strip_all_tags( Request::input( "parent_item_colon" ) );
+		$edit_item         = wp_strip_all_tags( Request::input( "edit_item" ) );
+		$update_item       = wp_strip_all_tags( Request::input( "update_item" ) );
+		$add_new_item      = wp_strip_all_tags( Request::input( "add_new_item" ) );
+		$new_item_name     = wp_strip_all_tags( Request::input( "new_item_name" ) );
+		$menu_name         = wp_strip_all_tags( Request::input( "menu_name" ) );
+		$array_accept_post = get_option( "boca-tax-accept-post" );
+		$accept_post       = $array_accept_post ? unserialize( $array_accept_post ) : [];
+		$array             = get_option( "boca-custom-taxonomy" );
+		$taxonomy_register = $array ? unserialize( $array ) : [];
+		if ( key_exists( $name_taxonomy, $taxonomy_register ) ):
+			session::set( [ "error" => "Taxonomy is exists" ] );
+
+			return redierct()->back();
+		endif;
+		$accept_post[ $name_taxonomy ]       = $accept_post_input;
+		$taxonomy_register[ $name_taxonomy ] = [
+			'labels'            => array(
+				'name'              => __( $name, "boca-domain" ),
+				'singular_name'     => __( $singular_name, "boca-domain" ),
+				'search_items'      => __( $search_items, "boca-domain" ),
+				'all_items'         => __( $all_items, "boca-domain" ),
+				'parent_item'       => __( $parent_item, "boca-domain" ),
+				'parent_item_colon' => __( $parent_item_colon, "boca-domain" ),
+				'edit_item'         => __( $edit_item, "boca-domain" ),
+				'update_item'       => __( $update_item, "boca-domain" ),
+				'add_new_item'      => __( $add_new_item, "boca-domain" ),
+				'new_item_name'     => __( $new_item_name, "boca-domain" ),
+				'menu_name'         => __( $menu_name, "boca-domain" )
+			),
+			'hierarchical'      => true,
+			'show_ui'           => true,
+			'show_admin_column' => true,
+			'query_var'         => true,
+			'show_in_rest'      => true,
+			'rewrite'           => array(
+				'slug'       => $rewrite,
+				'with_front' => false
+			),
+		];
+		$ubpdate_accept                      = update_option( "boca-tax-accept-post", serialize( $accept_post ) );
+		$update_taxonomy                     = update_option( "boca-custom-taxonomy", serialize( $taxonomy_register ) );
+		session::set( [ "success" => "success" ] );
+
+		return redierct()->back();
+	} );
+
 } );

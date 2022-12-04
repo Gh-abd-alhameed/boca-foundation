@@ -11,3 +11,5 @@ require __DIR__ . "/init/post-type-init.php";
 require __DIR__ . "/init/rewrite-init.php";
 
 require __DIR__ . "/init/meta-box-init.php";
+
+require __DIR__ . "/init/taxonomy-init.php";
