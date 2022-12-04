@@ -46,15 +46,15 @@ use boca\core\settings\Request;
 
 </style>
 <div class="container-fluid py-5">
-    <?php if (\boca\core\settings\session::has("success")): ?>
-        <small class="alert alert-success w-100"><?php echo \boca\core\settings\session::get("success");
-            \boca\core\settings\session::clear("success"); ?></small>
-    <?php endif; ?>
+	<?php if ( \boca\core\settings\session::has( "success" ) ): ?>
+        <small class="alert alert-success w-100"><?php echo \boca\core\settings\session::get( "success" );
+			\boca\core\settings\session::clear( "success" ); ?></small>
+	<?php endif; ?>
 
-    <?php if (\boca\core\settings\session::has("error")): ?>
-        <small class="alert alert-danger w-100"><?php echo \boca\core\settings\session::get("error");
-            \boca\core\settings\session::clear("error"); ?></small>
-    <?php endif; ?>
+	<?php if ( \boca\core\settings\session::has( "error" ) ): ?>
+        <small class="alert alert-danger w-100"><?php echo \boca\core\settings\session::get( "error" );
+			\boca\core\settings\session::clear( "error" ); ?></small>
+	<?php endif; ?>
 
 
     <div class="row px-3">
@@ -67,10 +67,10 @@ use boca\core\settings\Request;
             </div>
         </div>
     </div>
-    <?php if (Request::hasInput("createfields")): ?>
+	<?php if ( Request::hasInput( "createfields" ) ): ?>
         <form action="/wp-json/boca/v1/create-meta-boxes" method="POST">
             <input type="text" name="_token_app" hidden
-                   value="<?php echo \boca\core\settings\session::get("_token_app") ?>"/>
+                   value="<?php echo \boca\core\settings\session::get( "_token_app" ) ?>"/>
             <div class="row py-3 justify-content-center">
                 <div class="col-12">
                     <div class="table-container">
@@ -107,11 +107,11 @@ use boca\core\settings\Request;
                                 </div>
                                 <div class="table-cell">
                                     <select multiple class="form-select" name="post_type[]">
-                                        <?php foreach (get_post_types() as $key => $value): ?>
+										<?php foreach ( get_post_types() as $key => $value ): ?>
                                             <option value="<?php echo $value ?>">
-                                                <?php echo $value ?>
+												<?php echo $value ?>
                                             </option>
-                                        <?php endforeach; ?>
+										<?php endforeach; ?>
                                     </select>
                                 </div>
                                 <div class="table-cell">
@@ -121,6 +121,9 @@ use boca\core\settings\Request;
                                         </option>
                                         <option value="image">
                                             image
+                                        </option>
+                                        <option value="gallery">
+                                            gallery
                                         </option>
                                     </select>
                                 </div>
@@ -135,8 +138,8 @@ use boca\core\settings\Request;
                 </div>
             </div>
         </form>
-    <?php endif; ?>
-    <?php if (Request::uri() == "/wp-admin/admin.php?page=boca_submenu_custom_fields"): ?>
+	<?php endif; ?>
+	<?php if ( Request::uri() == "/wp-admin/admin.php?page=boca_submenu_custom_fields" ): ?>
         <div class="row py-3">
             <div class="col-12">
                 <div class="table-container">
@@ -163,12 +166,12 @@ use boca\core\settings\Request;
                         </div>
                     </div>
                     <div class="table-body" id="container-append-row">
-                        <?php
-                        $array = get_option("boca-metaboxes-fields");
-                        $rewrite_tag = $array ? unserialize($array) : [];
-                        if (count($rewrite_tag) > 0):
-                            foreach ($rewrite_tag as $key => $value):
-                                ?>
+						<?php
+						$array       = get_option( "boca-metaboxes-fields" );
+						$rewrite_tag = $array ? unserialize( $array ) : [];
+						if ( count( $rewrite_tag ) > 0 ):
+							foreach ( $rewrite_tag as $key => $value ):
+								?>
                                 <div class="table-row">
                                     <div class="table-cell">
                                         <input type="text" readonly value="<?php echo $value["name"] ?>"/>
@@ -178,36 +181,45 @@ use boca\core\settings\Request;
                                     </div>
                                     <div class="table-cell">
                                         <input type="text" readonly
-                                               value="<?php echo join(",", $value["post_type"]) ?>"/>
+                                               value="<?php echo join( ",", $value["post_type"] ) ?>"/>
                                     </div>
                                     <div class="table-cell">
                                         <input type="text" readonly value="<?php echo $value["type"] ?>"/>
                                     </div>
                                     <div class="table-cell">
-                                        <a class="btn btn-success" href="/wp-admin/admin.php?page=boca_submenu_custom_fields&editFields=<?php echo $key ?>">Edit</a>
+                                        <div class="d-flex gap-3">
+                                            <a class="btn btn-success"
+                                               href="/wp-admin/admin.php?page=boca_submenu_custom_fields&editFields=<?php echo $key ?>">Edit</a>
+                                            <form action="/wp-json/boca/v1/delete-meta-boxes" method="POST">
+                                                <input type="text" name="_token_app" hidden
+                                                       value="<?php echo \boca\core\settings\session::get( "_token_app" ) ?>"/>
+                                                <input type="text" class="" name="id" hidden value="<?php echo $key ?>"/>
+                                                <input type="submit" class="btn btn-danger" value="x"/>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
-                            <?php
-                            endforeach;
-                        else:
-                            ?>
+							<?php
+							endforeach;
+						else:
+							?>
                             <div class="table-row" id="no-data">
                                 <div class="table-cell">
                                     no Data
                                 </div>
                             </div>
-                        <?php
-                        endif;
-                        ?>
+						<?php
+						endif;
+						?>
                     </div>
                 </div>
             </div>
         </div>
-    <?php endif; ?>
-    <?php if (Request::hasInput("editFields") && !empty(Request::input("editFields"))): ?>
+	<?php endif; ?>
+	<?php if ( Request::hasInput( "editFields" ) && ! empty( Request::input( "editFields" ) ) ): ?>
         <form action="/wp-json/boca/v1/edit-meta-boxes" method="POST">
             <input type="text" name="_token_app" hidden
-                   value="<?php echo \boca\core\settings\session::get("_token_app") ?>"/>
+                   value="<?php echo \boca\core\settings\session::get( "_token_app" ) ?>"/>
             <div class="row py-3 justify-content-center">
                 <div class="col-12">
                     <div class="table-container">
@@ -232,51 +244,59 @@ use boca\core\settings\Request;
                             </div>
                         </div>
                         <div class="table-body" id="container-append-row">
-                            <?php
-                            $array = get_option("boca-metaboxes-fields");
-                            $fields = $array ? unserialize($array)[Request::input("editFields")] : [];
-                            if (count($fields) > 0):
-                                    ?>
-                                    <div class="table-row">
-                                        <div class="table-cell">
-                                            <input type="text" class="form-control" value="<?php echo $fields["name"] ?>"
-                                                   name="name"/>
-                                        </div>
-                                        <div class="table-cell">
-                                            <input type="text" class="form-control" value="<?php echo Request::input("editFields") ?>""
-                                                   name="id"/>
-                                        </div>
-                                        <div class="table-cell">
-                                            <select multiple class="form-select" name="post_type[]" value="<?php echo join(",",$fields["post_type"]) ?>">
-                                                <?php foreach (get_post_types() as $key => $value): ?>
-                                                    <option  value="<?php echo $value ?>">
-                                                        <?php echo $value ?>
-                                                    </option>
-                                                <?php endforeach; ?>
-                                            </select>
-                                        </div>
-                                        <div class="table-cell">
-                                            <select class="form-select" name="type" value="<?php echo $fields["type"] ?>">
-                                                <option <?php echo $fields["type"] == "text" ? "selected" : "" ?>  value="text">
-                                                    text
-                                                </option>
-                                                <option <?php echo $fields["type"] == "image" ? "selected" : "" ?> value="image">
-                                                    image
-                                                </option>
-                                            </select>
-                                        </div>
+							<?php
+							$array  = get_option( "boca-metaboxes-fields" );
+							$fields = $array ? unserialize( $array )[ Request::input( "editFields" ) ] : [];
+							if ( count( $fields ) > 0 ):
+								?>
+                                <div class="table-row">
+                                    <div class="table-cell">
+                                        <input type="text" class="form-control" value="<?php echo $fields["name"] ?>"
+                                               name="name"/>
                                     </div>
-                                <?php
-                            else:
-                                ?>
+                                    <div class="table-cell">
+                                        <input type="text" class="form-control"
+                                               value="<?php echo Request::input( "editFields" ) ?>""
+                                        name="id"/>
+                                    </div>
+                                    <div class="table-cell">
+                                        <select multiple class="form-select" name="post_type[]"
+                                                value="<?php echo join( ",", $fields["post_type"] ) ?>">
+											<?php foreach ( get_post_types() as $key => $value ): ?>
+                                                <option value="<?php echo $value ?>">
+													<?php echo $value ?>
+                                                </option>
+											<?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                    <div class="table-cell">
+                                        <select class="form-select" name="type" value="<?php echo $fields["type"] ?>">
+                                            <option <?php echo $fields["type"] == "text" ? "selected" : "" ?>
+                                                    value="text">
+                                                text
+                                            </option>
+                                            <option <?php echo $fields["type"] == "image" ? "selected" : "" ?>
+                                                    value="image">
+                                                image
+                                            </option>
+                                            <option <?php echo $fields["type"] == "gallery" ? "selected" : "" ?>
+                                                    value="gallery">
+                                                gallery
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+							<?php
+							else:
+								?>
                                 <div class="table-row">
                                     <div class="table-cell">
                                         no data
                                     </div>
                                 </div>
-                            <?php
-                            endif;
-                            ?>
+							<?php
+							endif;
+							?>
                         </div>
                         <div class="table-footer">
                             <div class="table-cell">
@@ -287,7 +307,7 @@ use boca\core\settings\Request;
                 </div>
             </div>
         </form>
-    <?php endif; ?>
+	<?php endif; ?>
 </div>
 
 
