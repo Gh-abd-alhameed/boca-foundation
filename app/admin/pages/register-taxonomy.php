@@ -73,9 +73,129 @@ use boca\core\settings\session;
             <div class="d-flex gap-2">
                 <a href="/wp-admin/admin.php?page=boca_submenu_custom_taxonomy&newTax=true"
                    class="btn btn-success ">+ add new</a>
+                <a href="/wp-admin/admin.php?page=boca_submenu_custom_taxonomy&addCustomFields=true"
+                   class="btn btn-success ">+ add new Fields</a>
+                <a href="/wp-admin/admin.php?page=boca_submenu_custom_taxonomy&manageFields=true"
+                   class="btn btn-success ">+ manage Fields</a>
             </div>
         </div>
     </div>
+	<?php if ( Request::hasInput( "manageFields" ) ): ?>
+        <div class="row ox-3">
+            <div class="col-12 pt-4">
+                <div class="table-container">
+                    <div class="table-caption">
+                        <div class="d-flex gap-3 align-items-center w-100">
+                            <h3 class="m-0">Fields:</h3>
+                        </div>
+                    </div>
+                    <div class="table-head">
+                        <div class="table-cell">
+                            Name
+                        </div>
+                        <div class="table-cell">
+                            ID
+                        </div>
+                        <div class="table-cell">
+                            Taxonomy
+                        </div>
+                        <div class="table-cell">
+                            Type
+                        </div>
+                    </div>
+                    <div class="table-body" id="container-append-row">
+						<?php
+						$array_custom_fields = get_option( "boca-custom-fields-taxonomy" );
+						$custom_fields       = $array_custom_fields ? unserialize( $array_custom_fields ) : [];
+						if (count($custom_fields) > 0 ):
+							foreach ($custom_fields as $key => $value):
+								?>
+                                <div class="table-row">
+                                    <div class="table-cell">
+                                        <input type="text" readonly value="<?php echo $value["name"] ?>"/>
+                                    </div>
+                                    <div class="table-cell">
+                                        <input type="text" readonly value="<?php echo $key ?>"/>
+                                    </div>
+                                    <div class="table-cell">
+                                        <input type="text" readonly value="<?php echo $value["taxonomies"] ?>"/>
+                                    </div>
+                                    <div class="table-cell">
+                                        <input type="text" readonly value="<?php echo $value["type"] ?>"/>
+                                    </div>
+                                </div>
+							<?php
+							endforeach;
+                            else:
+                            ?>
+
+                        <?php
+						endif; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+	<?php endif; ?>
+	<?php if ( Request::hasInput( "addCustomFields" ) ): ?>
+        <form action="/wp-json/boca/v1/create-taxonomy-fields" method="POST">
+            <input type="text" name="_token_app" hidden
+                   value="<?php echo session::get( "_token_app" ) ?>"/>
+            <div class="row ox-3">
+                <div class="col-12 pt-4">
+                    <div class="table-container">
+                        <div class="table-caption">
+                            <div class="d-flex gap-3 align-items-center w-100">
+                                <h3 class="m-0">Taxonomy:</h3>
+                            </div>
+                        </div>
+                        <div class="table-head">
+                            <div class="table-cell">
+                                Name
+                            </div>
+                            <div class="table-cell">
+                                ID
+                            </div>
+                            <div class="table-cell">
+                                Taxonomy
+                            </div>
+                            <div class="table-cell">
+                                Type
+                            </div>
+                        </div>
+                        <div class="table-body" id="container-append-row">
+                            <div class="table-row">
+                                <div class="table-cell">
+                                    <input type="text" name="name" value=""/>
+                                </div>
+                                <div class="table-cell">
+                                    <input type="text" name="id" value=""/>
+                                </div>
+                                <div class="table-cell">
+                                    <select name="taxonomies">
+										<?php foreach ( get_taxonomies() as $key_taxonomies => $value_taxonomies ): ?>
+                                            <option value="<?php echo $value_taxonomies ?>"><?php echo $value_taxonomies ?></option>
+										<?php endforeach; ?>
+                                    </select>
+                                </div>
+                                <div class="table-cell">
+                                    <select name="type">
+                                        <option value="text">text</option>
+                                        <option value="image">image</option>
+                                        <option value="gallery">gallery</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="table-row">
+                                <div class="table-cell">
+                                    <input type="submit" class="btn btn-outline-dark" value="save"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+	<?php endif; ?>
 	<?php if ( Request::hasInput( "newTax" ) ): ?>
         <form action="/wp-json/boca/v1/create-taxonomy" method="POST">
             <input type="text" name="_token_app" hidden
@@ -209,8 +329,8 @@ use boca\core\settings\session;
 						<?php
 						$array_accept_post = get_option( "boca-tax-accept-post" );
 						$accept_post       = $array_accept_post ? unserialize( $array_accept_post ) : [];
-						$array           = get_option( "boca-custom-taxonomy" );
-						$custom_taxonomy = $array ? unserialize( $array ) : [];
+						$array             = get_option( "boca-custom-taxonomy" );
+						$custom_taxonomy   = $array ? unserialize( $array ) : [];
 						if ( count( $custom_taxonomy ) > 0 ):
 							foreach ( $custom_taxonomy as $key => $value ):
 								?>
@@ -222,7 +342,8 @@ use boca\core\settings\session;
                                         <input type="text" readonly value="<?php echo $value["rewrite"]["slug"] ?>"/>
                                     </div>
                                     <div class="table-cell">
-                                        <input type="text" readonly value="<?php echo join("," , $accept_post[$key]) ?>"/>
+                                        <input type="text" readonly
+                                               value="<?php echo join( ",", $accept_post[ $key ] ) ?>"/>
                                     </div>
                                     <div class="table-cell">
                                         <div class="d-flex gap-3">
