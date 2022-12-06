@@ -939,6 +939,5 @@ Route::Init( "/boca/v1", function () {
 		$update_custom_fields = update_option("boca-custom-fields-taxonomy" , serialize($custom_fields));
 		session::set( [ "success" => "success" ] );
 		return redierct()->back();
-
 	});
 } );
