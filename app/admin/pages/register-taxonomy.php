@@ -76,10 +76,79 @@ use boca\core\settings\session;
                 <a href="/wp-admin/admin.php?page=boca_submenu_custom_taxonomy&addCustomFields=true"
                    class="btn btn-success ">+ add new Fields</a>
                 <a href="/wp-admin/admin.php?page=boca_submenu_custom_taxonomy&manageFields=true"
-                   class="btn btn-success ">+ manage Fields</a>
+                   class="btn btn-success ">manage Fields</a>
             </div>
         </div>
     </div>
+    <?php if(Request::hasInput("editTaxFields")): ?>
+        <form action="/wp-json/boca/v1/edit-tax-field" method="POST">
+            <input type="text" name="_token_app" hidden
+                   value="<?php echo session::get( "_token_app" ) ?>"/>
+            <div class="row ox-3">
+                <div class="col-12 pt-4">
+                    <div class="table-container">
+                        <div class="table-caption">
+                            <div class="d-flex gap-3 align-items-center w-100">
+                                <h3 class="m-0">Taxonomy:</h3>
+                            </div>
+                        </div>
+                        <div class="table-head">
+                            <div class="table-cell">
+                                Name
+                            </div>
+                            <div class="table-cell">
+                                ID
+                            </div>
+                            <div class="table-cell">
+                                Taxonomy
+                            </div>
+                            <div class="table-cell">
+                                Type
+                            </div>
+                            <input  type="text" name="id" hidden value="<?php echo Request::input("editTaxFields") ?>" />
+                        </div>
+                        <div class="table-body" id="container-append-row">
+                            <?php
+                                $array_custom_fields = get_option( "boca-custom-fields-taxonomy" );
+                                $custom_fields       = $array_custom_fields ? unserialize( $array_custom_fields ) : [];
+                                if(!key_exists( Request::input("editTaxFields") , $custom_fields)){
+                                    redierct()->back();
+                                }
+                                $field_tax = $custom_fields[Request::input("editTaxFields")];
+                            ?>
+                            <div class="table-row">
+                                <div class="table-cell">
+                                    <input type="text" name="name" value="<?php echo $field_tax["name"] ?>"/>
+                                </div>
+                                <div class="table-cell">
+                                    <input type="text" readonly value="<?php echo Request::input("editTaxFields") ?>"/>
+                                </div>
+                                <div class="table-cell">
+                                    <select name="taxonomies">
+									    <?php foreach ( get_taxonomies() as $key_taxonomies => $value_taxonomies ): ?>
+                                            <option <?php echo $field_tax["taxonomies"] == $value_taxonomies ? "selected" :""  ?>  value="<?php echo $value_taxonomies ?>"><?php echo $value_taxonomies ?></option>
+									    <?php endforeach; ?>
+                                    </select>
+                                </div>
+                                <div class="table-cell">
+                                    <select name="type">
+                                        <option <?php echo $field_tax["type"] == "text" ? "selected" :""  ?>  value="text">text</option>
+                                        <option <?php echo $field_tax["type"] == "image" ? "selected" :""  ?>  value="image">image</option>
+                                        <option <?php echo $field_tax["type"] == "gallery" ? "selected" :""  ?> value="gallery">gallery</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="table-row">
+                                <div class="table-cell">
+                                    <input type="submit" class="btn btn-outline-dark" value="save"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    <?php endif; ?>
 	<?php if ( Request::hasInput( "manageFields" ) ): ?>
         <div class="row ox-3">
             <div class="col-12 pt-4">
@@ -102,6 +171,9 @@ use boca\core\settings\session;
                         <div class="table-cell">
                             Type
                         </div>
+                        <div class="table-cell">
+
+                        </div>
                     </div>
                     <div class="table-body" id="container-append-row">
 						<?php
@@ -122,6 +194,18 @@ use boca\core\settings\session;
                                     </div>
                                     <div class="table-cell">
                                         <input type="text" readonly value="<?php echo $value["type"] ?>"/>
+                                    </div>
+                                    <div class="table-cell">
+                                        <div class="d-flex gap-3">
+                                            <a class="btn btn-success"
+                                               href="/wp-admin/admin.php?page=boca_submenu_custom_taxonomy&editTaxFields=<?php echo $key ?>">Edit</a>
+                                            <form action="/wp-json/boca/v1/delete-tax-custom-fields" method="POST">
+                                                <input type="text" name="_token_app" hidden
+                                                       value="<?php echo session::get( "_token_app" ) ?>"/>
+                                                <input type="text" class="" name="id" hidden value="<?php echo $key ?>"/>
+                                                <input type="submit" class="btn btn-danger" value="x"/>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
 							<?php

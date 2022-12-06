@@ -891,4 +891,54 @@ Route::Init( "/boca/v1", function () {
 		session::set( [ "success" => "success" ] );
 		return redierct()->back();
 	} );
+	Route::post("/delete-tax-custom-fields" , function (){
+		if ( empty( Request::input( "_token_app" ) ) || ( session::get( "_token_app" ) != Request::input( "_token_app" ) ) ) {
+			session::set( [ "error" => "error 401 Auth" ] );
+			return redierct()->back();
+		}
+		if(!Request::hasInput("id") || empty(Request::input("id"))){
+			session::set( [ "error" => "error input" ] );
+			return redierct()->back();
+		}
+		$id = wp_strip_all_tags(Request::input("id"));
+		$array_custom_fields = get_option( "boca-custom-fields-taxonomy" );
+		$custom_fields       = $array_custom_fields ? unserialize( $array_custom_fields ) : [];
+		if(!key_exists($id , $custom_fields)){
+			session::set( [ "error" => "id is not exists" ] );
+			return redierct()->back();
+		}
+		unset($custom_fields[$id]);
+		$update_custom_fields = update_option("boca-custom-fields-taxonomy" , serialize($custom_fields));
+		session::set( [ "success" => "delete success" ] );
+		return redierct()->back();
+	});
+	Route::post("/edit-tax-field",function (){
+		if ( empty( Request::input( "_token_app" ) ) || ( session::get( "_token_app" ) != Request::input( "_token_app" ) ) ) {
+			session::set( [ "error" => "error 401 Auth" ] );
+			return redierct()->back();
+		}
+		if ( ! Request::hasInput( "name" ) || ! Request::hasInput( "id" ) || ! Request::hasInput( "taxonomies" ) || ! Request::hasInput( "type" ) ) {
+			session::set( [ "error" => "error input" ] );
+			return redierct()->back();
+		}
+		if ( empty( Request::input( "name" ) ) || empty( Request::input( "id" ) ) || empty( Request::input( "taxonomies" ) ) || empty( Request::input( "type" ) ) ) {
+			session::set( [ "error" => "error input" ] );
+			return redierct()->back();
+		}
+		$name       = wp_strip_all_tags( Request::input( "name" ) );
+		$id         = wp_strip_all_tags( Request::input( "id" ) );
+		$taxonomies = wp_strip_all_tags( Request::input( "taxonomies" ) );
+		$type       = wp_strip_all_tags( Request::input( "type" ) );
+		$array_custom_fields = get_option( "boca-custom-fields-taxonomy" );
+		$custom_fields       = $array_custom_fields ? unserialize( $array_custom_fields ) : [];
+		if ( !key_exists( $id, $custom_fields ) ) {
+			session::set( [ "error" => "id is not exists" ] );
+			return redierct()->back();
+		}
+		$custom_fields [ $id ] = array( "name" => $name, "taxonomies" => $taxonomies, "type" =>$type );
+		$update_custom_fields = update_option("boca-custom-fields-taxonomy" , serialize($custom_fields));
+		session::set( [ "success" => "success" ] );
+		return redierct()->back();
+
+	});
 } );
